@@ -23,12 +23,12 @@
                     </form>
                 </li>
                 <li class="nav-item">
-                    <form action="Classifica/index" method="post">
+                    <form action="<?= site_url('classifica/index') ?>" method="get">
                         <button type="submit" class="btn btn-link nav-link">Classifica</button>
                     </form>
                 </li>
                 <li class="nav-item">
-                    <form action="Negozio/index" method="post">
+                    <form action="<?= site_url('Negozio/index') ?>" method="get">
                         <button type="submit" class="btn btn-link nav-link">Negozio</button>
                     </form>
                 </li>

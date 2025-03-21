@@ -31,7 +31,7 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <a href="<?= base_url('/') ?>" class="btn btn-primary">Torna alla Dashboard</a>
+        <a href="<?= base_url('dashboard') ?>" class="btn btn-primary">Torna alla Dashboard</a>
     </div>
 </body>
 </html>
