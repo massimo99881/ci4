@@ -12,14 +12,6 @@ class BigliettiModel extends Model
 
     public function getBigliettiConTorneo()
     {
-        /*
-         * Esegui una JOIN per recuperare:
-         * - biglietti.id
-         * - biglietti.torneo_id
-         * - biglietti.prezzo
-         * - biglietti.disponibilita
-         * - tornei.nome (nome del torneo)
-         */
         return $this
             ->select('biglietti.*, tornei.nome as nomeTorneo')
             ->join('tornei', 'tornei.id = biglietti.torneo_id')
@@ -28,21 +20,15 @@ class BigliettiModel extends Model
 
     public function decrementaDisponibilita($bigliettoId, $quantita)
     {
-        // 1. Recupera la riga corrispondente
         $biglietto = $this->find($bigliettoId);
         if (!$biglietto) {
-            return false; // o lanciare un'eccezione
+            return false;
         }
-
-        // 2. Calcola nuova disponibilità
         $nuovaDisponibilita = $biglietto['disponibilita'] - $quantita;
         if ($nuovaDisponibilita < 0) {
-            $nuovaDisponibilita = 0; // o gestire l'errore in altro modo
+            $nuovaDisponibilita = 0;
         }
-
-        // 3. Aggiorna
         $this->update($bigliettoId, ['disponibilita' => $nuovaDisponibilita]);
-
         return true;
     }
 }

@@ -9,12 +9,15 @@
 <body class="d-flex align-items-center justify-content-center vh-100">
     <div class="container">
         <h2>Login</h2>
-        <form action="Auth/doLogin" method="post">
+        <?php if (isset($error)): ?>
+            <div class="alert alert-danger"><?= esc($error) ?></div>
+        <?php endif; ?>
+        <form action="<?= site_url('Auth/doLogin') ?>" method="post">
             <input type="email" name="email" class="form-control mb-2" placeholder="Email" required>
             <input type="password" name="password" class="form-control mb-2" placeholder="Password" required>
             <button type="submit" class="btn btn-primary">Accedi</button>
         </form>
-        <form action="Auth/register" method="post">
+        <form action="<?= site_url('Auth/register') ?>" method="post">
             <button type="submit" class="btn btn-link">Registrati</button>
         </form>
     </div>

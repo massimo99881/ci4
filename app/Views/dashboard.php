@@ -1,66 +1,6 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Tennis</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+<?= $this->extend('layouts/main') ?>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#">TennisApp</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <form action="News/index" method="post">
-                        <button type="submit" class="btn btn-link nav-link">News</button>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <form action="<?= site_url('classifica/index') ?>" method="get">
-                        <button type="submit" class="btn btn-link nav-link">Classifica</button>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <form action="<?= site_url('Negozio/index') ?>" method="get">
-                        <button type="submit" class="btn btn-link nav-link">Negozio</button>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <form action="Tornei/index" method="post">
-                        <button type="submit" class="btn btn-link nav-link">Prossimi Tornei</button>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <form action="Risultati/index" method="post">
-                        <button type="submit" class="btn btn-link nav-link">Risultati Recenti</button>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <form action="Giocatori/index" method="post">
-                        <button type="submit" class="btn btn-link nav-link">Giocatori in Evidenza</button>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <form action="Biglietti/index" method="post">
-                        <button type="submit" class="btn btn-link nav-link">Acquisto Biglietti</button>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <form action="Auth/logout" method="post">
-                        <button type="submit" class="btn btn-danger">Logout</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<?= $this->section('content') ?>
 
 <!-- Carousel -->
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
@@ -107,7 +47,4 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+<?= $this->endSection() ?>

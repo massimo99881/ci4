@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <title>Negozio - Acquisto Biglietti</title>
-    <!-- Se usi Bootstrap, aggiungi i link CSS/JS -->
-</head>
-<body>
+<?= $this->extend('layouts/main') ?>
+
+<?= $this->section('content') ?>
 
 <div class="container mt-4">
     <h1>Acquista Biglietti</h1>
@@ -27,18 +22,18 @@
                     <td><?= esc($b['prezzo']) ?> €</td>
                     <td><?= esc($b['disponibilita']) ?></td>
                     <td>
-                        <!-- Form per l'acquisto -->
-                        <form action="<?= site_url('Negozio/buy') ?>" method="post" class="form-inline">
-                            <input type="hidden" name="biglietto_id" value="<?= $b['id'] ?>">
-                            <input type="number" name="quantita" value="1" min="1" 
-                                   max="<?= $b['disponibilita'] ?>" 
-                                   class="form-control" style="width:100px">
-                            <button type="submit" class="btn btn-primary">Acquista</button>
-                        </form>
+                        <!-- Input quantità, non parte del form -->
+                        <input type="number" id="quantita_<?= $b['id'] ?>" value="1" min="1" max="<?= $b['disponibilita'] ?>" class="form-control" style="width:100px">
                     </td>
                     <td>
-                        <!-- Qui potresti mettere pulsanti aggiuntivi 
-                             o altre funzionalità legate all'acquisto -->
+                        <!-- Form per l'acquisto, con hidden per la quantità -->
+                        <form action="<?= site_url('Negozio/buy') ?>" method="post">
+                            <input type="hidden" name="biglietto_id" value="<?= $b['id'] ?>">
+                            <input type="hidden" name="quantita" id="form_quantita_<?= $b['id'] ?>" value="1">
+                            <button type="submit" class="btn btn-primary" onclick="document.getElementById('form_quantita_<?= $b['id'] ?>').value = document.getElementById('quantita_<?= $b['id'] ?>').value;">
+                                Acquista
+                            </button>
+                        </form>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -49,5 +44,4 @@
     </table>
 </div>
 
-</body>
-</html>
+<?= $this->endSection() ?>

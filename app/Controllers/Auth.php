@@ -7,19 +7,17 @@ class Auth extends BaseController
 {
     public function login()
     {
-        echo view('login');
+        return view('login');
     }
 
     public function register()
     {
-        echo view('register');
+        return view('register');
     }
 
     public function doLogin()
     {
-        
         $model = new UtentiModel();
-        
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
         
@@ -27,14 +25,13 @@ class Auth extends BaseController
 
         if ($utente && password_verify($password, $utente['password'])) {
             session()->set([
-                'id' => $utente['id'],
-                'nome' => $utente['nome'],
-                'email' => $utente['email'],
-                'ruolo' => $utente['ruolo'],
+                'id'      => $utente['id'],
+                'nome'    => $utente['nome'],
+                'email'   => $utente['email'],
+                'ruolo'   => $utente['ruolo'],
                 'isLoggedIn' => true
             ]);
-            // return $this->dashboard();
-            return view('dashboard'); // -- cambiato questo
+            return view('dashboard'); // Visualizza la dashboard
         } else {
             return view('login', ['error' => 'Credenziali errate']);
         }
@@ -44,13 +41,12 @@ class Auth extends BaseController
     {
         $model = new UtentiModel();
         $data = [
-            'nome' => $this->request->getPost('nome'),
-            'cognome' => $this->request->getPost('cognome'),
-            'email' => $this->request->getPost('email'),
+            'nome'     => $this->request->getPost('nome'),
+            'cognome'  => $this->request->getPost('cognome'),
+            'email'    => $this->request->getPost('email'),
             'password' => password_hash($this->request->getPost('password'), PASSWORD_BCRYPT),
-            'ruolo' => 'user'
+            'ruolo'    => 'user'
         ];
-
         $model->insert($data);
         return $this->login();
     }

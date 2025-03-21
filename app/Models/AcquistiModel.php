@@ -13,10 +13,20 @@ class AcquistiModel extends Model
     public function salvaAcquisto($userId, $bigliettoId, $quantita)
     {
         $data = [
-            'utente_id' => $userId,
+            'utente_id'   => $userId,
             'biglietto_id' => $bigliettoId,
-            'quantita' => $quantita
+            'quantita'    => $quantita
         ];
         return $this->insert($data);
+    }
+
+    public function getAcquistiByUtente($userId)
+    {
+        return $this->select('biglietti_utenti.*, biglietti.prezzo, tornei.nome as nomeTorneo')
+                    ->join('biglietti', 'biglietti.id = biglietti_utenti.biglietto_id')
+                    ->join('tornei', 'tornei.id = biglietti.torneo_id')
+                    ->where('biglietti_utenti.utente_id', $userId)
+                    ->orderBy('biglietti_utenti.created_at', 'DESC')
+                    ->findAll();
     }
 }

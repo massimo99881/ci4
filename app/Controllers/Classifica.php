@@ -9,6 +9,6 @@ class Classifica extends BaseController
     {
         $model = new RankingModel();
         $data['classifica'] = $model->getClassifica();
-        echo view('classifica', $data);
+        return view('classifica', $data);
     }
 }
