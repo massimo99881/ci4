@@ -24,6 +24,11 @@ use CodeIgniter\Debug\Toolbar\Collectors\Views;
 class Toolbar extends BaseConfig
 {
     /**
+     * Imposta a false per disabilitare la Debug Toolbar.
+     */
+    public bool $enabled = false;
+    
+    /**
      * --------------------------------------------------------------------------
      * Toolbar Collectors
      * --------------------------------------------------------------------------

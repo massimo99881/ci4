@@ -6,6 +6,8 @@ use CodeIgniter\Config\BaseConfig;
 
 class App extends BaseConfig
 {
+    public $sessionDriver = 'database'; // oppure 'redis' o 'memcached'
+    
     /**
      * --------------------------------------------------------------------------
      * Base Site URL

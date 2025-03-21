@@ -53,11 +53,6 @@
                     </form>
                 </li>
                 <li class="nav-item">
-                    <form action="<?= site_url('Biglietti/index') ?>" method="post">
-                        <button type="submit" class="btn btn-link nav-link">Acquisto Biglietti</button>
-                    </form>
-                </li>
-                <li class="nav-item">
                     <form action="<?= site_url('Auth/logout') ?>" method="post">
                         <button type="submit" class="btn btn-danger">Logout</button>
                     </form>
