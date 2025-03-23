@@ -34,16 +34,23 @@
 <div class="container mt-4">
     <h2>Ultime Notizie</h2>
     <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <img src="https://source.unsplash.com/400x250/?tennis-player" class="card-img-top" alt="News">
-                <div class="card-body">
-                    <h5 class="card-title">Grande vittoria a Wimbledon</h5>
-                    <p class="card-text">Jannik Sinner trionfa in una partita epica.</p>
-                    <a href="#" class="btn btn-primary">Leggi di più</a>
+        <?php if (!empty($news)): ?>
+            <?php foreach($news as $item): ?>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <!-- Se l'url inizia con http usa direttamente il valore, altrimenti lo genera tramite base_url -->
+                        <img src="<?= (strpos($item['img'], 'http') === 0) ? $item['img'] : base_url($item['img']) ?>" class="card-img-top" alt="<?= esc($item['titolo']) ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= esc($item['titolo']) ?></h5>
+                            <p class="card-text"><?= esc($item['descrizione']) ?></p>
+                            <a href="#" class="btn btn-primary">Leggi di più</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>Nessuna notizia disponibile.</p>
+        <?php endif; ?>
     </div>
 </div>
 

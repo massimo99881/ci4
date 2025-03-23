@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\NewsModel;
 
 class Dashboard extends BaseController
 {
@@ -9,6 +10,9 @@ class Dashboard extends BaseController
         if (!session()->get('isLoggedIn')) {
             return view('login', ['error' => 'Devi prima effettuare il login.']);
         }
-        return view('dashboard');
+        $newsModel = new NewsModel();
+        $data['news'] = $newsModel->findAll();
+
+        return view('dashboard', $data);
     }
 }

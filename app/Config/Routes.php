@@ -11,4 +11,9 @@ $routes->get('Negozio/index', 'Negozio::index');
 $routes->post('Negozio/buy', 'Negozio::buy');
 $routes->get('Acquisti/index', 'Acquisti::index');
 $routes->post('Acquisti/delete/(:num)', 'Acquisti::delete/$1');
+$routes->get('dashboard', 'Dashboard::index');
+
+// Aggiunta delle rotte per le news
+$routes->get('News/index', 'News::index');
+$routes->post('News/index', 'News::index');
 

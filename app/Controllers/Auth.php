@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\UtentiModel;
+use App\Models\NewsModel;
 
 class Auth extends BaseController
 {
@@ -31,7 +32,12 @@ class Auth extends BaseController
                 'ruolo'   => $utente['ruolo'],
                 'isLoggedIn' => true
             ]);
-            return view('dashboard'); // Visualizza la dashboard
+
+            // Carico le news da mostrare nella dashboard
+            $newsModel = new NewsModel();
+            $data['news'] = $newsModel->findAll();
+
+            return view('dashboard', $data);
         } else {
             return view('login', ['error' => 'Credenziali errate']);
         }
