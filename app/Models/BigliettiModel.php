@@ -12,10 +12,15 @@ class BigliettiModel extends Model
 
     public function getBigliettiConTorneo()
     {
-        return $this
-            ->select('biglietti.*, tornei.nome as nomeTorneo')
-            ->join('tornei', 'tornei.id = biglietti.torneo_id')
-            ->findAll();
+        $builder = $this->db->table($this->table);
+        $builder->select('biglietti.*, tornei.nome as nomeTorneo, tornei.data_inizio, tornei.data_fine');
+        $builder->join('tornei', 'tornei.id = biglietti.torneo_id');
+        // Visualizza solo i tornei che non sono ancora iniziati
+        $builder->where('tornei.data_inizio >', date('Y-m-d'));
+        // Ordina per data_inizio in ordine ascendente
+        $builder->orderBy('tornei.data_inizio', 'ASC');
+        $query = $builder->get();
+        return $query->getResultArray();
     }
 
     public function decrementaDisponibilita($bigliettoId, $quantita)

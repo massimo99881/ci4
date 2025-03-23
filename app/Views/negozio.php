@@ -8,6 +8,7 @@
         <thead>
             <tr>
                 <th>Torneo</th>
+                <th>Periodo</th>
                 <th>Prezzo</th>
                 <th>Disponibilità</th>
                 <th>Quantità</th>
@@ -19,6 +20,9 @@
             <?php foreach ($biglietti as $b): ?>
                 <tr>
                     <td><?= esc($b['nomeTorneo']) ?></td>
+                    <td>
+                        <?= date("d/m/Y", strtotime($b['data_inizio'])) ?> - <?= date("d/m/Y", strtotime($b['data_fine'])) ?>
+                    </td>
                     <td><?= esc($b['prezzo']) ?> €</td>
                     <td><?= esc($b['disponibilita']) ?></td>
                     <td>
@@ -38,7 +42,7 @@
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
-            <tr><td colspan="5">Nessun biglietto disponibile.</td></tr>
+            <tr><td colspan="6">Nessun biglietto disponibile.</td></tr>
         <?php endif; ?>
         </tbody>
     </table>
