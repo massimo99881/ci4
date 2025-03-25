@@ -16,4 +16,12 @@ $routes->get('dashboard', 'Dashboard::index');
 // Aggiunta delle rotte per le news
 $routes->get('News/index', 'News::index');
 $routes->post('News/index', 'News::index');
+$routes->get('News/detail/(:num)', 'News::detail/$1');
+
+// Rotte per i giocatori
+$routes->get('Giocatori/index', 'Giocatori::index');
+$routes->post('Giocatori/index', 'Giocatori::index');
+$routes->get('Giocatori/detail/(:num)', 'Giocatori::detail/$1');
+$routes->post('Giocatori/detail', 'Giocatori::detail');
+
 

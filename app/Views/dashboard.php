@@ -38,12 +38,14 @@
             <?php foreach($news as $item): ?>
                 <div class="col-md-4 mb-3">
                     <div class="card">
-                        <!-- Se l'url inizia con http usa direttamente il valore, altrimenti lo genera tramite base_url -->
                         <img src="<?= (strpos($item['img'], 'http') === 0) ? $item['img'] : base_url($item['img']) ?>" class="card-img-top" alt="<?= esc($item['titolo']) ?>">
                         <div class="card-body">
                             <h5 class="card-title"><?= esc($item['titolo']) ?></h5>
-                            <p class="card-text"><?= esc($item['descrizione']) ?></p>
-                            <a href="#" class="btn btn-primary">Leggi di più</a>
+                            <p class="card-text">
+                                <?= (strlen($item['descrizione']) > 50) ? substr($item['descrizione'], 0, 50) . '...' : esc($item['descrizione']) ?>
+                            </p>
+                            <a href="<?= site_url('News/detail/' . $item['id']) ?>" class="btn btn-primary">Leggi di più</a>
+                            
                         </div>
                     </div>
                 </div>
@@ -53,5 +55,6 @@
         <?php endif; ?>
     </div>
 </div>
+
 
 <?= $this->endSection() ?>

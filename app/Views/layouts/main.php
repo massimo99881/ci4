@@ -38,10 +38,11 @@
                 </li>
 
                 <li class="nav-item">
-                    <form action="<?= site_url('Tornei/index') ?>" method="post">
-                        <button type="submit" class="btn btn-link nav-link">Prossimi Tornei</button>
+                    <form action="<?= site_url('Giocatori/index') ?>" method="post">
+                        <button type="submit" class="btn btn-link nav-link">Giocatori</button>
                     </form>
                 </li>
+
                 <li class="nav-item">
                     <form action="<?= site_url('Risultati/index') ?>" method="post">
                         <button type="submit" class="btn btn-link nav-link">Risultati Recenti</button>
