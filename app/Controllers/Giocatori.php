@@ -34,7 +34,6 @@ class Giocatori extends BaseController
     {
         $giocatoriModel = new GiocatoriModel();
         
-        // Recupera il primo giocatore (obbligatorio)
         if ($id === null) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Primo giocatore non specificato");
         }
@@ -43,11 +42,11 @@ class Giocatori extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Primo giocatore non trovato");
         }
         
-        // Recupera il secondo giocatore se è stato selezionato, tramite parametro GET 'p2'
+        // Recupera il secondo giocatore se presente nel parametro GET "p2"
         $player2_id = $this->request->getGet('p2');
         $player2 = $player2_id ? $giocatoriModel->find($player2_id) : null;
         
-        // Ottieni la lista di tutti gli altri giocatori per il dropdown
+        // Per il dropdown/risultati di ricerca, escludiamo player1
         $allPlayers = $giocatoriModel->findAll();
         $playersList = [];
         foreach ($allPlayers as $p) {

@@ -1,15 +1,14 @@
 <?= $this->extend('layouts/main') ?>
-
 <?= $this->section('content') ?>
 
 <div class="container mt-4">
-    <h1 class="mb-4">Confronta Giocatori</h1>
+    <h1>Confronta Giocatori</h1>
     
-    <!-- Card per il Primo Giocatore -->
+    <!-- Card del Primo Giocatore -->
     <div class="card mb-4">
         <div class="row g-0">
             <div class="col-md-4">
-                <img src="<?= (strpos($player1['img'], 'http') === 0) ? $player1['img'] : base_url('images/giocatori/'.$player1['img']) ?>" class="img-fluid rounded-start" alt="<?= esc($player1['nome']) ?>">
+                <img src="<?= (strpos($player1['img'], 'http') === 0) ? $player1['img'] : base_url($player1['img']) ?>" class="img-fluid rounded-start" alt="<?= esc($player1['nome']) ?>">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
@@ -25,29 +24,67 @@
         </div>
     </div>
     
-    <!-- Form per selezionare il Secondo Giocatore -->
-    <form method="get" action="<?= site_url('Giocatori/confronta/'.$player1['id']) ?>" class="mb-4">
-        <div class="row align-items-end">
-            <div class="col-md-6">
-                <label for="player2" class="form-label">Seleziona il giocatore da confrontare:</label>
-                <select name="p2" id="player2" class="form-select" required>
-                    <option value="">-- Seleziona un giocatore --</option>
-                    <?php foreach ($playersList as $p): ?>
-                        <option value="<?= esc($p['id']) ?>" <?= (isset($player2) && $player2 && $player2['id'] == $p['id']) ? 'selected' : '' ?>>
-                            <?= esc($p['nome'] . ' ' . $p['cognome']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+    <?php if (!$player2): ?>
+    <!-- Se non è stato selezionato il secondo giocatore, mostra la search bar e la tabella dei risultati -->
+    <div class="mb-4">
+        <input type="text" id="searchInput" class="form-control" placeholder="Cerca giocatore (nome, cognome, età)">
+    </div>
+    
+    <table class="table table-bordered table-striped" id="confrontaTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Nazione</th>
+                <th>Età</th>
+                <th>Confronta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($playersList)): ?>
+                <?php foreach ($playersList as $p): ?>
+                    <tr>
+                        <td><?= esc($p['id']) ?></td>
+                        <td><?= esc($p['nome']) ?></td>
+                        <td><?= esc($p['cognome']) ?></td>
+                        <td><?= esc($p['nazione']) ?></td>
+                        <td><?= esc($p['eta']) ?></td>
+                        <td>
+                            <button class="btn btn-success btn-sm confronta-btn" data-id="<?= esc($p['id']) ?>">Confronta</button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="6">Nessun giocatore trovato.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+    <?php else: ?>
+    <!-- Se il secondo giocatore è stato selezionato, mostra la sua card -->
+    <div class="card mb-4">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="<?= (strpos($player2['img'], 'http') === 0) ? $player2['img'] : base_url($player2['img']) ?>" class="img-fluid rounded-start" alt="<?= esc($player2['nome']) ?>">
             </div>
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-primary">Confronta</button>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"><?= esc($player2['nome'] . ' ' . $player2['cognome']) ?></h5>
+                    <p class="card-text">
+                        <strong>Nazione:</strong> <?= esc($player2['nazione']) ?><br>
+                        <strong>Età:</strong> <?= esc($player2['eta']) ?> anni<br>
+                        <strong>Altezza:</strong> <?= esc($player2['altezza']) ?> cm<br>
+                        <strong>Peso:</strong> <?= esc($player2['peso']) ?> kg<br>
+                    </p>
+                </div>
             </div>
         </div>
-    </form>
-    
-    <?php if ($player2): ?>
-    <!-- Tabella di confronto -->
-    <h2>Confronto: <?= esc($player1['nome'] . ' ' . $player1['cognome']) ?> vs <?= esc($player2['nome'] . ' ' . $player2['cognome']) ?></h2>
+    </div>
+
+    <!-- Tabella comparativa dei parametri tecnici -->
+    <h2>Confronto Parametri Tecnici</h2>
     <div class="table-responsive">
     <table class="table table-bordered">
         <thead class="table-light">
@@ -59,7 +96,6 @@
         </thead>
         <tbody>
             <?php
-            // Definiamo i parametri da confrontare (etichetta => chiave)
             $parameters = [
                 'Velocità del servizio (km/h)' => 'velocita_servizio',
                 'Potenza del dritto' => 'potenza_dritto',
@@ -74,7 +110,6 @@
             <?php 
                 $p1_value = $player1[$key];
                 $p2_value = $player2[$key];
-                // Determina quale valore è migliore: in questo esempio assumiamo che un valore maggiore sia migliore
                 $p1_class = '';
                 $p2_class = '';
                 if ($p1_value > $p2_value) {
@@ -92,7 +127,45 @@
         </tbody>
     </table>
     </div>
+    
+    <!-- Pulsante "INDIETRO" per tornare alla schermata di selezione del secondo giocatore -->
+    <div class="mt-3 text-end">
+        <a href="<?= site_url('Giocatori/confronta/'.$player1['id']) ?>" class="btn btn-secondary">INDIETRO</a>
+    </div>
     <?php endif; ?>
 </div>
 
+<script>
+// Filtraggio dinamico della tabella in base alla search bar (richiede almeno 2 caratteri)
+document.getElementById('searchInput')?.addEventListener('keyup', function() {
+    var query = this.value.toLowerCase();
+    var rows = document.querySelectorAll('#confrontaTable tbody tr');
+    if(query.length >= 2) {
+        rows.forEach(function(row) {
+            var cells = row.querySelectorAll('td');
+            var match = false;
+            // Controlla le colonne: nome, cognome, età (indici 1, 2, 4)
+            [1, 2, 4].forEach(function(i) {
+                if(cells[i].textContent.toLowerCase().indexOf(query) !== -1) {
+                    match = true;
+                }
+            });
+            row.style.display = match ? '' : 'none';
+        });
+    } else {
+        rows.forEach(function(row) {
+            row.style.display = '';
+        });
+    }
+});
+
+// Gestione del pulsante "Confronta" in ogni riga della tabella
+document.querySelectorAll('.confronta-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+        var p2 = this.getAttribute('data-id');
+        // Reindirizza alla stessa pagina con il parametro p2 impostato
+        window.location.href = "<?= site_url('Giocatori/confronta/'.$player1['id']) ?>" + "?p2=" + p2;
+    });
+});
+</script>
 <?= $this->endSection() ?>
