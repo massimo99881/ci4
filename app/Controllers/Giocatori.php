@@ -29,4 +29,39 @@ class Giocatori extends BaseController
         
         return view('giocatore_detail', ['giocatore' => $giocatore]);
     }
+
+    public function confronta($id = null)
+    {
+        $giocatoriModel = new GiocatoriModel();
+        
+        // Recupera il primo giocatore (obbligatorio)
+        if ($id === null) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Primo giocatore non specificato");
+        }
+        $player1 = $giocatoriModel->find($id);
+        if (!$player1) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Primo giocatore non trovato");
+        }
+        
+        // Recupera il secondo giocatore se è stato selezionato, tramite parametro GET 'p2'
+        $player2_id = $this->request->getGet('p2');
+        $player2 = $player2_id ? $giocatoriModel->find($player2_id) : null;
+        
+        // Ottieni la lista di tutti gli altri giocatori per il dropdown
+        $allPlayers = $giocatoriModel->findAll();
+        $playersList = [];
+        foreach ($allPlayers as $p) {
+            if ($p['id'] != $player1['id']) {
+                $playersList[] = $p;
+            }
+        }
+        
+        $data = [
+            'player1'    => $player1,
+            'player2'    => $player2,
+            'playersList'=> $playersList
+        ];
+        
+        return view('giocatori_confronta', $data);
+    }
 }

@@ -24,4 +24,8 @@ $routes->post('Giocatori/index', 'Giocatori::index');
 $routes->get('Giocatori/detail/(:num)', 'Giocatori::detail/$1');
 $routes->post('Giocatori/detail', 'Giocatori::detail');
 
+// Rotte per il confronto
+$routes->get('Giocatori/confronta/(:num)', 'Giocatori::confronta/$1');
+$routes->post('Giocatori/confronta', 'Giocatori::confronta');
+
 
