@@ -21,6 +21,17 @@
                         <button type="submit" class="btn btn-link nav-link">News</button>
                     </form>
                 </li>
+                <!-- Inserisco "Partite" e "Tornei" prima di "Classifica" -->
+                <li class="nav-item">
+                    <form action="<?= site_url('Partite/index') ?>" method="get">
+                        <button type="submit" class="btn btn-link nav-link">Partite</button>
+                    </form>
+                </li>
+                <li class="nav-item">
+                    <form action="<?= site_url('Tornei/index') ?>" method="get">
+                        <button type="submit" class="btn btn-link nav-link">Tornei</button>
+                    </form>
+                </li>
                 <li class="nav-item">
                     <form action="<?= site_url('classifica/index') ?>" method="get">
                         <button type="submit" class="btn btn-link nav-link">Classifica</button>
@@ -36,21 +47,9 @@
                         <button type="submit" class="btn btn-link nav-link">I miei biglietti</button>
                     </form>
                 </li>
-
                 <li class="nav-item">
                     <form action="<?= site_url('Giocatori/index') ?>" method="post">
                         <button type="submit" class="btn btn-link nav-link">Giocatori</button>
-                    </form>
-                </li>
-
-                <li class="nav-item">
-                    <form action="<?= site_url('Risultati/index') ?>" method="post">
-                        <button type="submit" class="btn btn-link nav-link">Risultati Recenti</button>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <form action="<?= site_url('Giocatori/index') ?>" method="post">
-                        <button type="submit" class="btn btn-link nav-link">Giocatori in Evidenza</button>
                     </form>
                 </li>
                 <li class="nav-item">
