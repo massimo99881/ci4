@@ -83,39 +83,127 @@
         </div>
     </div>
 
-    <!-- Tabella comparativa dei parametri tecnici -->
-    <h2>Confronto Parametri Tecnici</h2>
+   <!-- Tabella comparativa dei parametri tecnici -->
+   <h2>Confronto Parametri Tecnici</h2>
+    <!-- Canvas per il grafico radar -->
+    <canvas id="radarChart"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Definisci le etichette (i parametri da confrontare)
+        const labels = [
+            "Potenza dritto",
+            "Precisione dritto",
+            "Potenza rovescio",
+            "Precisione rovescio",
+            "Mobilità",
+            "Resistenza",
+            "Peso (kg)"
+        ];
+
+        // Dati del primo giocatore (estratti dai parametri selezionati)
+        const player1Data = [
+            <?= esc($player1['potenza_dritto']) ?>,
+            <?= esc($player1['precisione_dritto']) ?>,
+            <?= esc($player1['potenza_rovescio']) ?>,
+            <?= esc($player1['precisione_rovescio']) ?>,
+            <?= esc($player1['mobilita']) ?>,
+            <?= esc($player1['resistenza']) ?>,
+            <?= esc($player1['peso']) ?>
+        ];
+
+        // Dati del secondo giocatore
+        const player2Data = [
+            <?= esc($player2['potenza_dritto']) ?>,
+            <?= esc($player2['precisione_dritto']) ?>,
+            <?= esc($player2['potenza_rovescio']) ?>,
+            <?= esc($player2['precisione_rovescio']) ?>,
+            <?= esc($player2['mobilita']) ?>,
+            <?= esc($player2['resistenza']) ?>,
+            <?= esc($player2['peso']) ?>
+        ];
+
+        // Ottieni il contesto del canvas
+        const ctx = document.getElementById('radarChart').getContext('2d');
+
+        // Crea il grafico radar
+        const radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "<?= esc($player1['nome']) ?>",
+                    data: player1Data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2
+                },
+                {
+                    label: "<?= esc($player2['nome']) ?>",
+                    data: player2Data,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+   
     <div class="table-responsive">
     <table class="table table-bordered">
         <thead class="table-light">
-            <tr>
-                <th>Parametro</th>
-                <th><?= esc($player1['nome']) ?></th>
-                <th><?= esc($player2['nome']) ?></th>
-            </tr>
+        <tr>
+            <th>Parametro</th>
+            <th><?= esc($player1['nome']) ?></th>
+            <th><?= esc($player2['nome']) ?></th>
+        </tr>
         </thead>
         <tbody>
-            <?php
-            $parameters = [
-                'Velocità del servizio (km/h)' => 'velocita_servizio',
-                'Potenza del dritto' => 'potenza_dritto',
-                'Precisione del dritto' => 'precisione_dritto',
-                'Potenza del rovescio' => 'potenza_rovescio',
-                'Precisione del rovescio' => 'precisione_rovescio',
-                'Mobilità' => 'mobilita',
-                'Resistenza' => 'resistenza'
-            ];
-            ?>
-            <?php foreach ($parameters as $label => $key): ?>
+        <?php
+        // Array dei parametri da confrontare: etichetta => chiave del record
+        $parameters = [
+            'Velocità del servizio (km/h)' => 'velocita_servizio',
+            'Potenza del dritto'            => 'potenza_dritto',
+            'Precisione del dritto'         => 'precisione_dritto',
+            'Potenza del rovescio'          => 'potenza_rovescio',
+            'Precisione del rovescio'       => 'precisione_rovescio',
+            'Mobilità'                      => 'mobilita',
+            'Resistenza'                    => 'resistenza',
+            'Altezza (cm)'                  => 'altezza',
+            'Peso (kg)'                     => 'peso',
+            'Mano dominante'                => 'mano_dominante'
+        ];
+        ?>
+        <?php foreach ($parameters as $label => $key): ?>
             <?php 
                 $p1_value = $player1[$key];
                 $p2_value = $player2[$key];
                 $p1_class = '';
                 $p2_class = '';
-                if ($p1_value > $p2_value) {
-                    $p1_class = 'table-success';
-                } elseif ($p2_value > $p1_value) {
-                    $p2_class = 'table-success';
+                if ($key === 'mano_dominante') {
+                    // Se i valori sono diversi, evidenzia il valore del primo giocatore
+                    if ($p1_value !== $p2_value) {
+                        $p1_class = 'table-success';
+                    }
+                } else {
+                    // Per i campi numerici, evidenzia il valore più alto
+                    if ($p1_value > $p2_value) {
+                        $p1_class = 'table-success';
+                    } elseif ($p2_value > $p1_value) {
+                        $p2_class = 'table-success';
+                    }
                 }
             ?>
             <tr>
@@ -123,10 +211,11 @@
                 <td class="<?= $p1_class ?>"><?= esc($p1_value) ?></td>
                 <td class="<?= $p2_class ?>"><?= esc($p2_value) ?></td>
             </tr>
-            <?php endforeach; ?>
+        <?php endforeach; ?>
         </tbody>
     </table>
     </div>
+
     
     <!-- Pulsante "INDIETRO" per tornare alla schermata di selezione del secondo giocatore -->
     <div class="mt-3 text-end">
