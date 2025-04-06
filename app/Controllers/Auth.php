@@ -8,7 +8,7 @@ class Auth extends BaseController
 {
     public function login()
     {
-        return view('login');
+        return view('auth/login');
     }
 
     public function register()
@@ -60,6 +60,7 @@ class Auth extends BaseController
     public function logout()
     {
         session()->destroy();
-        return $this->login();
+        return redirect()->to(site_url('Auth/login'));
     }
+
 }
