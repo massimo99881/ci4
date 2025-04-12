@@ -13,7 +13,6 @@ class News extends BaseController
         return view('news_index', $data);
     }
     
-    // Metodo per mostrare i dettagli di una notizia
     public function detail($id)
     {
         $newsModel = new NewsModel();
@@ -23,7 +22,45 @@ class News extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Notizia non trovata");
         }
         
-        $data['news'] = $news;
-        return view('news_detail', $data);
+        return view('news_detail', ['news' => $news]);
+    }
+    
+    // Metodo per inserire una nuova notizia (solo admin)
+    public function insert()
+    {
+        $newsModel = new NewsModel();
+
+        // Recupera i dati dal form
+        $titolo = $this->request->getPost('titolo');
+        $descrizione = $this->request->getPost('descrizione');
+
+        // Controlla se è stato caricato un file
+        $imgUrl = $this->request->getPost('img_url');
+        $file = $this->request->getFile('img_file');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getRandomName();
+            $file->move(WRITEPATH . '../public/images/news', $newName);
+            $imgPath = 'images/news/' . $newName;
+        } else {
+            // Se non è stato caricato un file, usa l'URL fornito
+            $imgPath = $imgUrl;
+        }
+
+        $data = [
+            'titolo' => $titolo,
+            'descrizione' => $descrizione,
+            'img' => $imgPath
+        ];
+
+        $newsModel->insert($data);
+        return redirect()->to(site_url('News/index'));
+    }
+    
+    // Metodo per eliminare una notizia (solo admin)
+    public function delete($id)
+    {
+        $newsModel = new NewsModel();
+        $newsModel->delete($id);
+        return redirect()->to(site_url('News/index'));
     }
 }

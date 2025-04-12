@@ -13,7 +13,7 @@ class RankingModel extends Model
     public function getClassifica()
     {
         return $this->db->table('ranking')
-            ->select('ranking.posizione, ranking.punti, giocatori.nome, giocatori.cognome, giocatori.nazione')
+            ->select('ranking.id, ranking.posizione, ranking.punti, giocatori.nome, giocatori.cognome, giocatori.nazione, ranking.giocatore_id')
             ->join('giocatori', 'ranking.giocatore_id = giocatori.id')
             ->orderBy('ranking.posizione', 'ASC')
             ->get()

@@ -16,12 +16,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+                <!-- La voce News è sempre visibile -->
                 <li class="nav-item">
                     <form action="<?= site_url('News/index') ?>" method="post">
                         <button type="submit" class="btn btn-link nav-link">News</button>
                     </form>
                 </li>
-                <!-- Inserisco "Partite" e "Tornei" prima di "Classifica" -->
+                <!-- Le voci Partite, Tornei e Classifica sono sempre visibili -->
                 <li class="nav-item">
                     <form action="<?= site_url('Partite/index') ?>" method="get">
                         <button type="submit" class="btn btn-link nav-link">Partite</button>
@@ -37,21 +38,27 @@
                         <button type="submit" class="btn btn-link nav-link">Classifica</button>
                     </form>
                 </li>
-                <li class="nav-item">
-                    <form action="<?= site_url('Negozio/index') ?>" method="get">
-                        <button type="submit" class="btn btn-link nav-link">Negozio</button>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <form action="<?= site_url('Acquisti/index') ?>" method="get">
-                        <button type="submit" class="btn btn-link nav-link">I miei biglietti</button>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <form action="<?= site_url('Giocatori/index') ?>" method="post">
-                        <button type="submit" class="btn btn-link nav-link">Giocatori</button>
-                    </form>
-                </li>
+                
+                <?php if(session()->get('ruolo') === 'user'): ?>
+                    <!-- Solo per l'utente USER -->
+                    <li class="nav-item">
+                        <form action="<?= site_url('Negozio/index') ?>" method="get">
+                            <button type="submit" class="btn btn-link nav-link">Negozio</button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <form action="<?= site_url('Acquisti/index') ?>" method="get">
+                            <button type="submit" class="btn btn-link nav-link">I miei biglietti</button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <form action="<?= site_url('Giocatori/index') ?>" method="post">
+                            <button type="submit" class="btn btn-link nav-link">Giocatori</button>
+                        </form>
+                    </li>
+                <?php endif; ?>
+
+                <!-- Logout è sempre visibile -->
                 <li class="nav-item">
                     <form action="<?= site_url('Auth/logout') ?>" method="post">
                         <button type="submit" class="btn btn-danger">Logout</button>
